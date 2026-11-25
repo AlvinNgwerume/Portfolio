@@ -797,17 +797,21 @@ function setupHeadshotFallback() {
     img.classList.remove('is-hidden');
   };
 
-  img.addEventListener('error', showFallback);
-  img.addEventListener('load', () => {
+  img.onerror = showFallback;
+  img.onload = () => {
     if (img.naturalWidth === 0) {
       showFallback();
     } else {
       showImage();
     }
-  });
+  };
 
-  if (img.complete && img.naturalWidth === 0) {
-    showFallback();
+  if (img.complete) {
+    if (img.naturalWidth === 0) {
+      showFallback();
+    } else {
+      showImage();
+    }
   }
 }
 

@@ -14,7 +14,7 @@ Self-contained, zero-build static portfolio built with dependency-free HTML5, CS
 
 ## GitHub Pages Deployment Setup
 
-1. Create a new GitHub repository (for example, `alvin-ngwerume-portfolio`) and copy `index.html`, `styles.css`, `app.js`, `README.md`, and the `assets/` folder from `public/assets/` (which includes `./assets/aistudio/Alvin_346b1c45.png`), or run `npm run build` and deploy `dist/`. An `AN` monogram plaque renders automatically if the portrait file is missing.
+1. Create a new GitHub repository (for example, `alvin-ngwerume-portfolio`) and copy `index.html`, `styles.css`, `app.js`, `README.md`, and `assets/headshot.png` (or run `npm run build` and deploy `dist/`). An `AN` monogram plaque renders automatically if `./assets/headshot.png` is missing.
 2. Commit and push to the `main` branch:
    ```bash
    git init
