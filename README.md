@@ -8,17 +8,17 @@ Self-contained, zero-build static portfolio built with dependency-free HTML5, CS
 /
 ├── index.html   # Semantic editorial layout & accessible modal markup
 ├── styles.css   # Self-contained CSS3 design system & sticky card-stack styles
-├── app.js       # ES6 interactivity (filters, modal, stacks, accordions, pipeline tabs, clipboard)
+├── app.js       # ES6 interactivity (filters, modal, stacks, accordions, PDF CV generator)
 └── README.md    # GitHub Pages deployment instructions
 ```
 
 ## GitHub Pages Deployment Setup
 
-1. Create a new GitHub repository (for example, `alvin-ngwerume-portfolio`) and copy `index.html`, `styles.css`, `app.js`, and `README.md` into the repository root.
+1. Create a new GitHub repository (for example, `alvin-ngwerume-portfolio`) and copy `index.html`, `styles.css`, `app.js`, `README.md`, and the `assets/` folder from `public/assets/` (which includes `./assets/aistudio/Alvin_346b1c45.png`), or run `npm run build` and deploy `dist/`. An `AN` monogram plaque renders automatically if the portrait file is missing.
 2. Commit and push to the `main` branch:
    ```bash
    git init
-   git add index.html styles.css app.js README.md
+   git add index.html styles.css app.js README.md assets/
    git commit -m "Deploy portfolio to GitHub Pages"
    git branch -M main
    git remote add origin https://github.com/<your-username>/<repo-name>.git
@@ -34,4 +34,4 @@ Self-contained, zero-build static portfolio built with dependency-free HTML5, CS
   ```bash
   python3 -m http.server 3000
   ```
-- Customizing contact details or copy only requires editing `index.html` and the data arrays at the top of `app.js`.
+- Customizing contact details or copy only requires editing `index.html` and the data arrays at the top of `app.js` (the **Resume** button links directly to your Google Drive folder).

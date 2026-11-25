@@ -23,6 +23,16 @@ const KPI_METRICS = [
     track: 'commercial',
   },
   {
+    id: 'kpi-task-tech',
+    value: '+40%',
+    label: 'Operational Workflow Efficiency',
+    context:
+      'Led full digital transformation & HubSpot CRM implementation automating real-time lead qualification workflows',
+    source: 'TASK Research Academy',
+    track: 'tech',
+    techTabOnly: true,
+  },
+  {
     id: 'kpi-discovery',
     value: '+20%',
     label: 'Discovery Engagements',
@@ -323,102 +333,21 @@ const STACK_GROUPS = [
   },
 ];
 
-const PIPELINE_STEPS = [
-  {
-    id: 'step-01',
-    stepNumber: '01',
-    shortTitle: 'Signal & Lead Capture',
-    fullTitle: '01 · Signal & Lead Capture',
-    trackLabel: 'Ingestion Layer',
-    inputSignals:
-      'Inbound web forms, LinkedIn Sales Navigator triggers, PR/media alerts, and outbound intent signals.',
-    mechanics:
-      'Every inbound submission and target account signal is captured via structured webhooks with standardized UTM, territory, and ICP metadata.',
-    governanceRule:
-      'Zero unlogged leads: every capture event generates an immutable timestamp and source tag within < 5 seconds.',
-    revenueImpact:
-      'Eliminates dark-funnel blind spots and surfaces timely commercial entry points for media & SaaS buyers.',
-    tools: ['Webhooks', 'LinkedIn Sales Navigator', 'GA4 Events'],
-  },
-  {
-    id: 'step-02',
-    stepNumber: '02',
-    shortTitle: 'AI Research & Qualification',
-    fullTitle: '02 · AI Research & Qualification',
-    trackLabel: 'Intelligence Layer',
-    inputSignals:
-      'Company domain, recent news/media footprint, stakeholder role, and stated discovery context.',
-    mechanics:
-      'AI research workflows (Claude, ChatGPT, Google AI Studio) synthesize account priorities, executive initiatives, and competitive gaps against MEDDICC/BANT criteria.',
-    governanceRule:
-      'No generic spray-and-pray: outreach and discovery calls require verified business pain and stakeholder relevance.',
-    revenueImpact:
-      'Cuts pre-call research time while lifting discovery engagement rates (+20% at BlinkOps).',
-    tools: ['Claude', 'ChatGPT', 'Google AI Studio', 'MEDDICC / BANT'],
-  },
-  {
-    id: 'step-03',
-    stepNumber: '03',
-    shortTitle: 'CRM Routing & Hygiene',
-    fullTitle: '03 · CRM Routing & Hygiene',
-    trackLabel: 'System Layer',
-    inputSignals:
-      'Enriched prospect payload, qualification score, and territory ownership matrix.',
-    mechanics:
-      'Make.com scenarios route qualified records directly into HubSpot or Salesforce, deduplicate contacts, assign SLAs, and trigger instant rep alerts.',
-    governanceRule:
-      'Strict MQL -> SQL -> Opportunity stage definitions with automated aging alerts to prevent stalled pipeline.',
-    revenueImpact:
-      '40% reduction in lead leakage and zero-delay routing between marketing capture and commercial follow-up.',
-    tools: ['Make.com', 'Salesforce', 'HubSpot', 'REST APIs'],
-  },
-  {
-    id: 'step-04',
-    stepNumber: '04',
-    shortTitle: 'Commercial Execution & Expansion',
-    fullTitle: '04 · Commercial Execution & Expansion',
-    trackLabel: 'Revenue Layer',
-    inputSignals:
-      'Qualified SQL opportunities, live product usage signals, and quarterly renewal milestones.',
-    mechanics:
-      'High-velocity multi-channel outbound converts net-new pipeline, while structured onboarding SLAs and QBRs drive net revenue retention and expansion.',
-    governanceRule:
-      'Every closed-won account enters a documented 90-day onboarding and stakeholder-mapping cadence.',
-    revenueImpact:
-      '$800k+ sourced pipeline (+35% above target), 95%+ client retention, and +30% YoY account expansion.',
-    tools: ['Multi-Channel Cadences', 'Power BI', 'Executive QBRs'],
-  },
-];
+const MISSION_STATEMENT =
+  'To turn customer relationships, market signals, and GTM systems into measurable revenue—combining account expansion and outbound execution with practical AI and workflow automation.';
 
-const PITCH_VARIANTS = [
-  {
-    id: 'commercial',
-    label: 'Copy Commercial / AM Pitch',
-    text:
-      'Alvin Dzingai Ngwerume is a Cape Town-based B2B Account Manager and Business Development specialist with a proven record across SaaS, security automation, and corporate education. He delivered +30% YoY revenue expansion and 20% churn reduction at MasterStart, 95%+ client retention and +30% proposal win rate at TASK Research Academy, +20% discovery engagement lift at BlinkOps, and $800k+ sourced pipeline (35% above target) at askOsca. Built for data-driven B2B SaaS and media intelligence teams, Alvin pairs disciplined MEDDICC/BANT pipeline execution with structured stakeholder retention governance.',
-  },
-  {
-    id: 'tech',
-    label: 'Copy GTM & Tech Pitch',
-    text:
-      'Alvin Dzingai Ngwerume bridges commercial revenue execution with hands-on GTM engineering and AI workflow automation. Currently completing a B.Sc. in Artificial Intelligence in Business, he designs zero-delay webhook and Make.com routing pipelines into Salesforce and HubSpot (cutting lead leakage by 40%), builds AI-assisted account intelligence workflows using Claude, ChatGPT, and Google AI Studio, and instruments conversion tracking across web properties with GA4 and Power BI.',
-  },
-];
-
-/** @type {{ activeFilter: 'all' | 'commercial' | 'tech', selectedCaseStudyId: string | null, activePipelineStepId: string, expandedStackIds: string[], copiedId: 'commercial' | 'tech' | null }} */
+/** @type {{ activeFilter: 'all' | 'commercial' | 'tech', selectedCaseStudyId: string | null, expandedStackIds: string[] }} */
 const state = {
   activeFilter: 'all',
   selectedCaseStudyId: null,
-  activePipelineStepId: PIPELINE_STEPS[0].id,
   expandedStackIds: [STACK_GROUPS[0].id],
-  copiedId: null,
 };
 
-/** @type {number | null} */
-let copyTimerId = null;
 /** @type {HTMLElement | null} */
 let lastModalTrigger = null;
 let rafPending = false;
+/** @type {IntersectionObserver | null} */
+let caseStudyObserver = null;
 
 /**
  * Escapes HTML special characters for safe DOM interpolation.
@@ -444,6 +373,20 @@ function matchesTrack(itemTrack, activeFilter) {
   if (activeFilter === 'all') return true;
   if (itemTrack === 'both') return true;
   return itemTrack === activeFilter;
+}
+
+/**
+ * Selects visible KPI cards for the active filter tab so `All Work` keeps
+ * the 4-card commercial/GTM bar and `tech` swaps TASK to digital transformation.
+ * @param {'all' | 'commercial' | 'tech'} activeFilter
+ */
+function getVisibleKpis(activeFilter) {
+  return KPI_METRICS.filter((kpi) => {
+    if (kpi.techTabOnly) {
+      return activeFilter === 'tech';
+    }
+    return matchesTrack(kpi.track, activeFilter);
+  });
 }
 
 /**
@@ -497,20 +440,19 @@ function getTrackAccentClass(track) {
    -------------------------------------------------------------------------- */
 
 function renderKpisAndCounts() {
-  const visibleKpis = KPI_METRICS.filter((k) => matchesTrack(k.track, state.activeFilter));
-  const visibleCaseStudies = CASE_STUDIES.filter((c) => matchesTrack(c.track, state.activeFilter));
-  const visibleExperience = EXPERIENCE_ROWS.filter((e) => matchesTrack(e.track, state.activeFilter));
-
-  const countsEl = document.getElementById('impact-counts');
-  if (countsEl) {
-    countsEl.textContent = `Showing ${visibleKpis.length} metrics · ${visibleCaseStudies.length} playbooks · ${visibleExperience.length} roles`;
-  }
+  const visibleKpis = getVisibleKpis(state.activeFilter);
 
   const kpiGrid = document.getElementById('kpi-grid');
   if (!kpiGrid) return;
 
-  kpiGrid.classList.toggle('cols-2', visibleKpis.length <= 2);
-  kpiGrid.classList.toggle('cols-4', visibleKpis.length > 2);
+  kpiGrid.classList.remove('cols-2', 'cols-3', 'cols-4');
+  if (visibleKpis.length <= 2) {
+    kpiGrid.classList.add('cols-2');
+  } else if (visibleKpis.length === 3) {
+    kpiGrid.classList.add('cols-3');
+  } else {
+    kpiGrid.classList.add('cols-4');
+  }
 
   kpiGrid.innerHTML = visibleKpis
     .map((kpi, idx) => {
@@ -533,6 +475,55 @@ function renderKpisAndCounts() {
     .join('');
 }
 
+function observeCaseStudyReveals() {
+  const cards = Array.from(document.querySelectorAll('#case-studies-grid .case-card'));
+  if (cards.length === 0) return;
+
+  if (caseStudyObserver) {
+    caseStudyObserver.disconnect();
+    caseStudyObserver = null;
+  }
+
+  const prefersReducedMotion =
+    window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  if (prefersReducedMotion || typeof window.IntersectionObserver !== 'function') {
+    cards.forEach((card) => {
+      card.classList.remove('reveal-pending');
+      card.classList.add('is-revealed');
+    });
+    return;
+  }
+
+  caseStudyObserver = new IntersectionObserver(
+    (entries) => {
+      entries.forEach((entry) => {
+        if (!entry.isIntersecting) return;
+        const el = entry.target;
+        if (el instanceof HTMLElement) {
+          el.classList.remove('reveal-pending');
+          el.classList.add('is-revealed');
+          if (caseStudyObserver) caseStudyObserver.unobserve(el);
+        }
+      });
+    },
+    { threshold: 0.12, rootMargin: '0px 0px -30px 0px' },
+  );
+
+  cards.forEach((card) => {
+    const rect = card.getBoundingClientRect();
+    const alreadyInView = rect.top < window.innerHeight * 0.96 && rect.bottom > 0;
+    if (alreadyInView) {
+      window.requestAnimationFrame(() => {
+        card.classList.remove('reveal-pending');
+        card.classList.add('is-revealed');
+      });
+    } else if (caseStudyObserver) {
+      caseStudyObserver.observe(card);
+    }
+  });
+}
+
 function renderCaseStudies() {
   const visibleCaseStudies = CASE_STUDIES.filter((c) => matchesTrack(c.track, state.activeFilter));
   const subtitleEl = document.getElementById('case-studies-subtitle');
@@ -550,16 +541,21 @@ function renderCaseStudies() {
   grid.classList.toggle('cols-3', visibleCaseStudies.length !== 2);
 
   grid.innerHTML = visibleCaseStudies
-    .map((cs) => {
+    .map((cs, idx) => {
       const accentClass = getTrackAccentClass(cs.track);
+      const staggerMs = idx * 75;
       return `
-        <article data-testid="case-study-card" class="case-card">
+        <article
+          data-testid="case-study-card"
+          class="case-card reveal-pending"
+          style="transition-delay: ${staggerMs}ms;"
+        >
           <div>
             <div class="case-meta-row">
               <span class="case-index tabular-nums">Playbook ${escapeHtml(cs.index)}</span>
               <span class="${accentClass}">${escapeHtml(cs.trackLabel)}</span>
             </div>
-            <h3 class="case-title">${escapeHtml(cs.title)}</h3>
+            <h4 class="case-title">${escapeHtml(cs.title)}</h4>
             <p class="case-metric tabular-nums">${escapeHtml(cs.primaryMetric)}</p>
             <dl class="case-dl">
               <div>
@@ -582,7 +578,7 @@ function renderCaseStudies() {
               class="btn-inspect-playbook"
               data-open-playbook="${escapeHtml(cs.id)}"
             >
-              <span>Inspect Playbook Architecture</span>
+              <span>Inspect</span>
               <svg
                 class="icon-svg-sm"
                 viewBox="0 0 24 24"
@@ -602,6 +598,8 @@ function renderCaseStudies() {
       `;
     })
     .join('');
+
+  observeCaseStudyReveals();
 }
 
 /**
@@ -643,7 +641,7 @@ function renderMilestoneStack(container, items, variant, stackLabel) {
     .map((item, idx) => {
       const metrics = computeStackCardMetrics(idx, items.length);
       const isLast = idx === items.length - 1;
-      const topOffset = 92 + idx * 16;
+      const topOffset = 88 + idx * 14;
       const accentClass = getTrackAccentClass(item.track);
       const regionHtml = item.regionOrAccount
         ? `<span class="milestone-region"> · ${escapeHtml(item.regionOrAccount)}</span>`
@@ -663,17 +661,16 @@ function renderMilestoneStack(container, items, variant, stackLabel) {
           >
             <article class="milestone-card ${variant === 'academic' ? 'is-academic' : ''}">
               <div class="milestone-card-grid">
-                <div class="milestone-meta-col">
-                  <span class="milestone-period tabular-nums">
-                    0${idx + 1} · ${escapeHtml(item.period)}
-                  </span>
-                  <span class="milestone-track-badge ${accentClass}">
-                    ${escapeHtml(item.trackLabel)}
-                  </span>
-                </div>
-
-                <div class="milestone-role-col">
-                  <h4 class="milestone-role">${escapeHtml(item.role)}</h4>
+                <div class="milestone-identity-col">
+                  <div class="milestone-meta-row">
+                    <span class="milestone-period tabular-nums">
+                      0${idx + 1} · ${escapeHtml(item.period)}
+                    </span>
+                    <span class="milestone-track-badge ${accentClass}">
+                      ${escapeHtml(item.trackLabel)}
+                    </span>
+                  </div>
+                  <h5 class="milestone-role">${escapeHtml(item.role)}</h5>
                   <p class="milestone-org">
                     ${escapeHtml(item.organization)}${regionHtml}
                   </p>
@@ -779,114 +776,56 @@ function renderStackAccordions() {
   }).join('');
 }
 
-function renderPipelineWalkthrough() {
-  const tablist = document.getElementById('pipeline-tablist');
-  const panel = document.getElementById('pipeline-detail-panel');
-  if (!tablist || !panel) return;
+/* --------------------------------------------------------------------------
+   Headshot Portrait Fallback Controller
+   -------------------------------------------------------------------------- */
 
-  const activeStep =
-    PIPELINE_STEPS.find((s) => s.id === state.activePipelineStepId) || PIPELINE_STEPS[0];
+function setupHeadshotFallback() {
+  const img = document.getElementById('hero-headshot-img');
+  const fallback = document.getElementById('hero-headshot-fallback');
+  if (!(img instanceof HTMLImageElement) || !fallback) return;
 
-  tablist.innerHTML = PIPELINE_STEPS.map((step, index) => {
-    const isSelected = step.id === activeStep.id;
-    const chevronHtml =
-      index < PIPELINE_STEPS.length - 1
-        ? `
-          <svg
-            class="pipeline-chevron"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            stroke-width="2"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            aria-hidden="true"
-          >
-            <polyline points="9 18 15 12 9 6"></polyline>
-          </svg>
-        `
-        : '';
+  const showFallback = () => {
+    img.classList.add('is-hidden');
+    fallback.classList.remove('is-hidden');
+    fallback.removeAttribute('aria-hidden');
+  };
 
-    return `
-      <button
-        type="button"
-        role="tab"
-        aria-selected="${isSelected ? 'true' : 'false'}"
-        aria-controls="pipeline-detail-panel"
-        data-pipeline-step="${escapeHtml(step.id)}"
-        class="pipeline-tab ${isSelected ? 'is-selected' : ''}"
-      >
-        <div class="pipeline-tab-text">
-          <span class="pipeline-tab-step tabular-nums">Stage ${escapeHtml(step.stepNumber)}</span>
-          <span class="pipeline-tab-title">${escapeHtml(step.shortTitle)}</span>
-        </div>
-        ${chevronHtml}
-      </button>
-    `;
-  }).join('');
+  const showImage = () => {
+    fallback.classList.add('is-hidden');
+    fallback.setAttribute('aria-hidden', 'true');
+    img.classList.remove('is-hidden');
+  };
 
-  panel.innerHTML = `
-    <div class="pipeline-panel-header">
-      <div>
-        <p class="pipeline-panel-layer">${escapeHtml(activeStep.trackLabel)}</p>
-        <h4 class="pipeline-panel-title">${escapeHtml(activeStep.fullTitle)}</h4>
-      </div>
-      <p class="pipeline-panel-tools">${escapeHtml(activeStep.tools.join(' · '))}</p>
-    </div>
+  img.addEventListener('error', showFallback);
+  img.addEventListener('load', () => {
+    if (img.naturalWidth === 0) {
+      showFallback();
+    } else {
+      showImage();
+    }
+  });
 
-    <div class="pipeline-panel-grid">
-      <div>
-        <p class="pipeline-col-label">Input Signals</p>
-        <p class="pipeline-col-body">${escapeHtml(activeStep.inputSignals)}</p>
-      </div>
-      <div>
-        <p class="pipeline-col-label">System Mechanics</p>
-        <p class="pipeline-col-body">${escapeHtml(activeStep.mechanics)}</p>
-      </div>
-      <div>
-        <p class="pipeline-col-label">Governance Rule</p>
-        <p class="pipeline-col-body">${escapeHtml(activeStep.governanceRule)}</p>
-      </div>
-      <div>
-        <p class="pipeline-col-label is-impact">Commercial Impact</p>
-        <p class="pipeline-col-body is-impact">${escapeHtml(activeStep.revenueImpact)}</p>
-      </div>
-    </div>
-  `;
+  if (img.complete && img.naturalWidth === 0) {
+    showFallback();
+  }
 }
 
-function renderPitchButtons() {
-  const container = document.getElementById('pitch-buttons-container');
-  const statusEl = document.getElementById('clipboard-status');
-  if (!container) return;
+/* --------------------------------------------------------------------------
+   Hero Eyebrow Ping-Pong Horizontal Glide
+   -------------------------------------------------------------------------- */
 
-  container.innerHTML = PITCH_VARIANTS.map((variant) => {
-    const isCopied = state.copiedId === variant.id;
-    const baseClass =
-      variant.id === 'commercial' ? 'btn-pitch-primary' : 'btn-pitch-secondary';
-    const iconSvg = isCopied
-      ? '<svg class="icon-svg-sm" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"></polyline></svg>'
-      : '<svg class="icon-svg-sm" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"></rect><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"></path></svg>';
+function updateHeroEyebrowGlide() {
+  const track = document.getElementById('hero-eyebrow-track');
+  const eyebrow = document.getElementById('hero-eyebrow-text');
+  if (!(track instanceof HTMLElement) || !(eyebrow instanceof HTMLElement)) return;
 
-    return `
-      <button
-        type="button"
-        data-copy-pitch="${escapeHtml(variant.id)}"
-        class="btn-pitch ${baseClass} ${isCopied ? 'is-copied' : ''}"
-      >
-        ${iconSvg}
-        <span>${isCopied ? 'Copied!' : escapeHtml(variant.label)}</span>
-      </button>
-    `;
-  }).join('');
-
-  if (statusEl) {
-    if (state.copiedId) {
-      const label = state.copiedId === 'commercial' ? 'Commercial / AM' : 'GTM & Tech';
-      statusEl.innerHTML = `<p class="clipboard-status-text">Executive ${label} pitch copied to clipboard.</p>`;
-    } else {
-      statusEl.innerHTML = '';
-    }
+  const overflow = Math.ceil(eyebrow.scrollWidth - track.clientWidth);
+  if (overflow > 4) {
+    eyebrow.style.setProperty('--eyebrow-shift', `-${overflow + 8}px`);
+  } else {
+    const gentleGlide = Math.max(16, Math.min(48, Math.floor(track.clientWidth - eyebrow.scrollWidth)));
+    eyebrow.style.setProperty('--eyebrow-shift', `${gentleGlide}px`);
   }
 }
 
@@ -1041,48 +980,6 @@ function navigatePlaybookModal(direction) {
 }
 
 /* --------------------------------------------------------------------------
-   Clipboard Copy Helper
-   -------------------------------------------------------------------------- */
-
-/**
- * Copies a pitch variant to clipboard and renders immediate visual confirmation.
- * @param {'commercial' | 'tech'} variantId
- */
-async function handleCopyPitch(variantId) {
-  const variant = PITCH_VARIANTS.find((v) => v.id === variantId);
-  if (!variant) return;
-
-  state.copiedId = variantId;
-  renderPitchButtons();
-
-  if (copyTimerId !== null) {
-    window.clearTimeout(copyTimerId);
-  }
-  copyTimerId = window.setTimeout(() => {
-    state.copiedId = null;
-    renderPitchButtons();
-  }, 2600);
-
-  try {
-    if (navigator.clipboard && navigator.clipboard.writeText) {
-      await navigator.clipboard.writeText(variant.text);
-    } else {
-      const textarea = document.createElement('textarea');
-      textarea.value = variant.text;
-      textarea.setAttribute('readonly', '');
-      textarea.style.position = 'absolute';
-      textarea.style.left = '-9999px';
-      document.body.appendChild(textarea);
-      textarea.select();
-      document.execCommand('copy');
-      document.body.removeChild(textarea);
-    }
-  } catch {
-    // Visual confirmation still succeeds in offline or permission-restricted frames
-  }
-}
-
-/* --------------------------------------------------------------------------
    Filter Sync & Mobile Nav
    -------------------------------------------------------------------------- */
 
@@ -1128,8 +1025,8 @@ function setupMobileMenu() {
     setOpen(!currentlyExpanded);
   });
 
-  drawer.querySelectorAll('a').forEach((link) => {
-    link.addEventListener('click', () => setOpen(false));
+  drawer.querySelectorAll('a').forEach((item) => {
+    item.addEventListener('click', () => setOpen(false));
   });
 }
 
@@ -1178,48 +1075,8 @@ function bindEvents() {
         state.expandedStackIds = [...state.expandedStackIds, rowId];
       }
       renderStackAccordions();
-      return;
-    }
-
-    const pipelineTab = target.closest('[data-pipeline-step]');
-    if (pipelineTab instanceof HTMLElement) {
-      const stepId = pipelineTab.dataset.pipelineStep;
-      if (stepId) {
-        state.activePipelineStepId = stepId;
-        renderPipelineWalkthrough();
-      }
-      return;
-    }
-
-    const pitchBtn = target.closest('[data-copy-pitch]');
-    if (pitchBtn instanceof HTMLElement) {
-      const variantId = pitchBtn.dataset.copyPitch;
-      if (variantId === 'commercial' || variantId === 'tech') {
-        handleCopyPitch(variantId);
-      }
     }
   });
-
-  // Keyboard navigation on pipeline tablist
-  const tablist = document.getElementById('pipeline-tablist');
-  if (tablist) {
-    tablist.addEventListener('keydown', (event) => {
-      if (event.key !== 'ArrowLeft' && event.key !== 'ArrowRight') return;
-      const idx = PIPELINE_STEPS.findIndex((s) => s.id === state.activePipelineStepId);
-      const nextIdx =
-        event.key === 'ArrowRight'
-          ? (idx + 1) % PIPELINE_STEPS.length
-          : (idx - 1 + PIPELINE_STEPS.length) % PIPELINE_STEPS.length;
-      state.activePipelineStepId = PIPELINE_STEPS[nextIdx].id;
-      renderPipelineWalkthrough();
-      const nextTab = tablist.querySelector(
-        `[data-pipeline-step="${PIPELINE_STEPS[nextIdx].id}"]`,
-      );
-      if (nextTab instanceof HTMLElement) {
-        nextTab.focus();
-      }
-    });
-  }
 
   // Modal controls & keyboard shortcuts
   const modalBackdrop = document.getElementById('playbook-modal');
@@ -1271,9 +1128,16 @@ function bindEvents() {
     }
   });
 
-  // Scroll listener for Skiper16 sticky card stack scaling
+  // Scroll & resize listeners for Skiper16 stack and eyebrow glide geometry
   window.addEventListener('scroll', scheduleSkiper16Update, { passive: true });
-  window.addEventListener('resize', scheduleSkiper16Update, { passive: true });
+  window.addEventListener(
+    'resize',
+    () => {
+      scheduleSkiper16Update();
+      updateHeroEyebrowGlide();
+    },
+    { passive: true },
+  );
 }
 
 function init() {
@@ -1283,12 +1147,15 @@ function init() {
   }
 
   setupMobileMenu();
+  setupHeadshotFallback();
+  updateHeroEyebrowGlide();
+  if (document.fonts && document.fonts.ready) {
+    document.fonts.ready.then(updateHeroEyebrowGlide).catch(() => {});
+  }
   renderKpisAndCounts();
   renderCaseStudies();
   renderExperienceStacks();
   renderStackAccordions();
-  renderPipelineWalkthrough();
-  renderPitchButtons();
   bindEvents();
   scheduleSkiper16Update();
 }

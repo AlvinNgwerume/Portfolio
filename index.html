@@ -31,12 +31,12 @@
         <a href="#top" class="brand-wordmark">Alvin Ngwerume</a>
 
         <nav aria-label="Primary navigation" class="desktop-nav">
-          <a href="#impact" class="nav-link">
-            <span>Impact</span>
+          <a href="#about" class="nav-link">
+            <span>About</span>
             <span aria-hidden="true" class="nav-underline"></span>
           </a>
-          <a href="#case-studies" class="nav-link">
-            <span>Case Studies</span>
+          <a href="#impact" class="nav-link">
+            <span>Impact</span>
             <span aria-hidden="true" class="nav-underline"></span>
           </a>
           <a href="#experience" class="nav-link">
@@ -44,8 +44,31 @@
             <span aria-hidden="true" class="nav-underline"></span>
           </a>
           <a href="#stack" class="nav-link">
-            <span>Stack</span>
+            <span>Systems</span>
             <span aria-hidden="true" class="nav-underline"></span>
+          </a>
+          <a
+            href="https://drive.google.com/drive/folders/1zbU375_Z0AI-GnX1DKzdgsH36ALxogKS?usp=sharing"
+            target="_blank"
+            rel="noopener noreferrer"
+            id="btn-download-resume"
+            class="nav-resume-btn"
+            aria-label="Open Alvin Ngwerume Resume folder"
+          >
+            <span>Resume</span>
+            <svg
+              class="icon-svg-sm"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              aria-hidden="true"
+            >
+              <line x1="7" y1="17" x2="17" y2="7"></line>
+              <polyline points="7 7 17 7 17 17"></polyline>
+            </svg>
           </a>
         </nav>
 
@@ -94,12 +117,12 @@
 
       <nav id="mobile-nav-drawer" aria-label="Mobile navigation" class="mobile-nav-drawer is-hidden">
         <div class="mobile-nav-links">
-          <a href="#impact" class="mobile-nav-link">
-            <span>Impact</span>
+          <a href="#about" class="mobile-nav-link">
+            <span>About</span>
             <span aria-hidden="true" class="mono-arrow">-&gt;</span>
           </a>
-          <a href="#case-studies" class="mobile-nav-link">
-            <span>Case Studies</span>
+          <a href="#impact" class="mobile-nav-link">
+            <span>Impact</span>
             <span aria-hidden="true" class="mono-arrow">-&gt;</span>
           </a>
           <a href="#experience" class="mobile-nav-link">
@@ -107,8 +130,29 @@
             <span aria-hidden="true" class="mono-arrow">-&gt;</span>
           </a>
           <a href="#stack" class="mobile-nav-link">
-            <span>Stack</span>
+            <span>Systems</span>
             <span aria-hidden="true" class="mono-arrow">-&gt;</span>
+          </a>
+          <a
+            href="https://drive.google.com/drive/folders/1zbU375_Z0AI-GnX1DKzdgsH36ALxogKS?usp=sharing"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="mobile-nav-link mobile-resume-btn"
+          >
+            <span>Resume</span>
+            <svg
+              class="icon-svg-sm"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              aria-hidden="true"
+            >
+              <line x1="7" y1="17" x2="17" y2="7"></line>
+              <polyline points="7 7 17 7 17 17"></polyline>
+            </svg>
           </a>
           <a href="#contact" class="mobile-nav-cta">Get in Touch</a>
         </div>
@@ -116,20 +160,19 @@
     </header>
 
     <main>
-      <!-- Band 1 & 2: Obsidian Editorial Hero + Light Impact & 4-Stat Strip -->
-      <section id="top">
-        <div class="hero-obsidian">
-          <div class="container">
-            <div class="hero-reveal hero-reveal-primary">
-              <p class="hero-eyebrow">
-                Cape Town, South Africa <span aria-hidden="true">·</span> Commercial Growth &amp; GTM Systems <span aria-hidden="true">·</span> B2B Account Management &amp; Outbound
-              </p>
+      <!-- Band 1: Unified Obsidian Editorial Hero with Headshot -->
+      <section id="top" class="hero-obsidian">
+        <div class="container">
+          <div class="hero-main-grid">
+            <div class="hero-copy-col hero-reveal hero-reveal-primary">
+              <div class="hero-eyebrow-track" id="hero-eyebrow-track">
+                <p class="hero-eyebrow" id="hero-eyebrow-text">
+                  Cape Town, South Africa <span aria-hidden="true">·</span> Commercial Growth &amp; GTM Systems <span aria-hidden="true">·</span> Business Development &amp; Outbound Architect <span aria-hidden="true">·</span> B2B Account Management
+                </p>
+              </div>
               <h1 class="hero-headline">
                 Bridging strategic account growth and AI-enabled GTM execution.
               </h1>
-            </div>
-
-            <div class="hero-split-bar hero-reveal hero-reveal-secondary">
               <p class="hero-subheadline">
                 Commercial operator combining B2B account expansion, high-velocity outbound pipeline
                 generation, and CRM/AI workflow automation to turn customer relationships and market
@@ -137,8 +180,13 @@
               </p>
 
               <div class="hero-cta-group">
-                <a href="#case-studies" class="btn-hero-primary">
-                  <span>Explore Case Studies</span>
+                <a
+                  href="https://www.linkedin.com/in/alvin-n-b1420a40/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  class="btn-hero-primary"
+                >
+                  <span>Connect on LinkedIn</span>
                   <svg
                     class="icon-svg-sm"
                     viewBox="0 0 24 24"
@@ -153,17 +201,191 @@
                     <polyline points="7 7 17 7 17 17"></polyline>
                   </svg>
                 </a>
-                <a href="#pipeline" class="btn-hero-secondary">
-                  <span>Inspect GTM Pipeline</span>
+                <a href="#about" class="btn-hero-secondary">
+                  <span>More</span>
+                  <svg
+                    class="icon-svg-sm icon-bounce-down"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    aria-hidden="true"
+                  >
+                    <line x1="12" y1="5" x2="12" y2="19"></line>
+                    <polyline points="19 12 12 19 5 12"></polyline>
+                  </svg>
                 </a>
+              </div>
+            </div>
+
+            <div class="hero-portrait-col hero-reveal hero-reveal-secondary">
+              <figure class="hero-portrait-frame" id="hero-portrait-frame">
+                <div class="hero-portrait-media">
+                  <img
+                    id="hero-headshot-img"
+                    src="./assets/aistudio/Alvin_346b1c45.png"
+                    alt="Alvin Dzingai Ngwerume executive portrait"
+                    referrerpolicy="no-referrer"
+                    class="hero-headshot-img"
+                  />
+                  <div id="hero-headshot-fallback" class="hero-headshot-fallback is-hidden" aria-hidden="true">
+                    <div class="portrait-monogram-ring">
+                      <span class="portrait-monogram-text">AN</span>
+                    </div>
+                  </div>
+                </div>
+                <figcaption class="hero-portrait-caption">
+                  <p class="portrait-caption-name">Alvin Dzingai Ngwerume</p>
+                  <p class="portrait-caption-meta">Cape Town · Commercial &amp; GTM Systems</p>
+                </figcaption>
+              </figure>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Band 2: Merged About + Career / Academic Experience Section -->
+      <section id="about" class="section-light section-bordered scroll-anchor">
+        <div class="container">
+          <div class="about-experience-grid">
+            <!-- Left Sticky Rail: About me / Meet Alvin / My Mission -->
+            <aside class="about-sticky-col" aria-labelledby="about-heading">
+              <div class="section-kicker">
+                <span class="kicker-badge kicker-badge-dark" aria-hidden="true">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round">
+                    <line x1="12" y1="5" x2="12" y2="19"></line>
+                    <line x1="5" y1="12" x2="19" y2="12"></line>
+                  </svg>
+                </span>
+                <span>About me</span>
+              </div>
+
+              <h2 id="about-heading" class="about-display">Meet Alvin</h2>
+
+              <p class="about-lead">
+                Commercially driven B2B Account Manager and Growth Specialist based in Cape Town,
+                operating at the intersection of enterprise account expansion, outbound revenue
+                generation, and AI-assisted GTM infrastructure.
+              </p>
+
+              <article
+                class="mission-card"
+                tabindex="0"
+                data-testid="mission-card"
+                aria-labelledby="mission-heading"
+              >
+                <p class="mission-kicker">Operating Thesis</p>
+                <h3 id="mission-heading" class="mission-title">My Mission</h3>
+                <p class="mission-body">
+                  To turn customer relationships, market signals, and GTM systems into measurable
+                  revenue—combining account expansion and outbound execution with practical AI and
+                  workflow automation.
+                </p>
+              </article>
+            </aside>
+
+            <!-- Right Scrolling Flow: Career / Academic Card Stacks -->
+            <div id="experience" class="experience-flow-col scroll-anchor">
+              <div class="experience-header">
+                <div class="section-kicker">
+                  <span class="kicker-badge kicker-badge-dark" aria-hidden="true">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round">
+                      <line x1="12" y1="5" x2="12" y2="19"></line>
+                      <line x1="5" y1="12" x2="19" y2="12"></line>
+                    </svg>
+                  </span>
+                  <span>Career / Academic</span>
+                </div>
+
+                <h3 class="experience-display">
+                  <span class="tone-muted">Commercial execution </span>
+                  <span class="tone-strong">
+                    across enterprise SaaS, security, and corporate growth.
+                  </span>
+                </h3>
+              </div>
+
+              <!-- 01: Career Milestones Stack -->
+              <div class="milestone-block" data-testid="career-stack-section">
+                <div class="milestone-subheader">
+                  <h4 class="milestone-title">01 · Career Milestones</h4>
+                </div>
+                <div id="career-stack-container"></div>
+              </div>
+
+              <!-- Break Line -->
+              <div
+                role="separator"
+                aria-label="Break between career and academic milestones"
+                data-testid="career-academic-break"
+                class="academic-separator"
+              >
+                <span class="separator-line"></span>
+                <span class="separator-label">Academic</span>
+                <span class="separator-line"></span>
+              </div>
+
+              <!-- 02: Academic Milestones Stack -->
+              <div data-testid="academic-stack-section">
+                <div class="milestone-subheader">
+                  <h4 class="milestone-title">02 · Academic Milestones</h4>
+                </div>
+                <div id="academic-stack-container"></div>
               </div>
             </div>
           </div>
         </div>
+      </section>
 
-        <!-- Band 2: Verified Impact & Filter Bar -->
-        <div id="impact" class="section-light section-bordered scroll-anchor">
-          <div class="container">
+      <!-- Band 3: Merged Impact & Case Studies Section -->
+      <section id="impact" class="section-muted section-bordered scroll-anchor">
+        <div class="container">
+          <div class="full-width-header">
+            <h2 class="section-display-wide">
+              <span class="tone-muted">Commercial Impact </span>
+              <span class="tone-strong">across enterprise retention and outbound velocity.</span>
+            </h2>
+
+            <div class="filter-bar-wrap">
+              <div
+                role="group"
+                aria-label="Filter portfolio by capability track"
+                class="filter-group"
+              >
+                <button
+                  type="button"
+                  class="filter-pill is-active"
+                  data-filter="all"
+                  aria-pressed="true"
+                >
+                  All Work
+                </button>
+                <button
+                  type="button"
+                  class="filter-pill"
+                  data-filter="commercial"
+                  aria-pressed="false"
+                >
+                  Account Management &amp; BDM / SDR
+                </button>
+                <button
+                  type="button"
+                  class="filter-pill"
+                  data-filter="tech"
+                  aria-pressed="false"
+                >
+                  GTM Tech &amp; Automation
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <div id="kpi-grid" data-testid="kpi-grid" class="kpi-grid cols-4"></div>
+
+          <!-- Merged Operating Playbooks / Case Studies -->
+          <div id="case-studies" class="case-studies-subblock scroll-anchor">
             <div class="asymmetric-header">
               <div class="header-col-left">
                 <div class="section-kicker">
@@ -173,61 +395,32 @@
                       <line x1="5" y1="12" x2="19" y2="12"></line>
                     </svg>
                   </span>
-                  <span>Verified Impact</span>
+                  <span>Case Studies · Operating Playbooks</span>
                 </div>
-                <p id="impact-counts" class="kicker-sublabel tabular-nums">
-                  Showing 4 metrics · 3 playbooks · 10 roles
+                <p id="case-studies-subtitle" class="kicker-sublabel">
+                  All 3 playbooks active · Click any card for full breakdown
                 </p>
               </div>
 
               <div class="header-col-right">
-                <h2 class="section-display">
-                  <span class="tone-muted">Verified Commercial &amp; GTM Impact </span>
-                  <span class="tone-strong">across enterprise retention and outbound velocity.</span>
-                </h2>
-
-                <div class="filter-bar-wrap">
-                  <div
-                    role="group"
-                    aria-label="Filter portfolio by capability track"
-                    class="filter-group"
-                  >
-                    <button
-                      type="button"
-                      class="filter-pill is-active"
-                      data-filter="all"
-                      aria-pressed="true"
-                    >
-                      All Work
-                    </button>
-                    <button
-                      type="button"
-                      class="filter-pill"
-                      data-filter="commercial"
-                      aria-pressed="false"
-                    >
-                      Account Management &amp; BDM / SDR
-                    </button>
-                    <button
-                      type="button"
-                      class="filter-pill"
-                      data-filter="tech"
-                      aria-pressed="false"
-                    >
-                      GTM Tech &amp; Automation
-                    </button>
-                  </div>
-                </div>
+                <h3 class="section-display">
+                  <span class="tone-muted">Outcome-led revenue systems, </span>
+                  <span class="tone-strong">documented end to end.</span>
+                </h3>
               </div>
             </div>
 
-            <div id="kpi-grid" data-testid="kpi-grid" class="kpi-grid cols-4"></div>
+            <div
+              id="case-studies-grid"
+              data-testid="case-studies-grid"
+              class="case-studies-grid cols-3"
+            ></div>
           </div>
         </div>
       </section>
 
-      <!-- Band 3: Operating Playbooks / Case Studies -->
-      <section id="case-studies" class="section-muted section-bordered scroll-anchor">
+      <!-- Band 4: Systems -->
+      <section id="stack" class="section-light scroll-anchor">
         <div class="container">
           <div class="asymmetric-header">
             <div class="header-col-left">
@@ -238,90 +431,7 @@
                     <line x1="5" y1="12" x2="19" y2="12"></line>
                   </svg>
                 </span>
-                <span>Operating Playbooks</span>
-              </div>
-              <p id="case-studies-subtitle" class="kicker-sublabel">
-                All 3 playbooks active · Click any card for full breakdown
-              </p>
-            </div>
-
-            <div class="header-col-right">
-              <h2 class="section-display">
-                <span class="tone-muted">Outcome-led revenue systems, </span>
-                <span class="tone-strong">documented end to end.</span>
-              </h2>
-            </div>
-          </div>
-
-          <div id="case-studies-grid" data-testid="case-studies-grid" class="case-studies-grid cols-3"></div>
-        </div>
-      </section>
-
-      <!-- Band 4: Career / Academic Section with Separate Skiper16 Sticky Card Stacks -->
-      <section id="experience" class="section-light section-bordered scroll-anchor">
-        <div class="container">
-          <div class="full-width-header">
-            <div class="section-kicker">
-              <span class="kicker-badge kicker-badge-dark" aria-hidden="true">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round">
-                  <line x1="12" y1="5" x2="12" y2="19"></line>
-                  <line x1="5" y1="12" x2="19" y2="12"></line>
-                </svg>
-              </span>
-              <span>Career / Academic</span>
-            </div>
-
-            <h2 class="section-display-wide">
-              <span class="tone-muted">Commercial execution </span>
-              <span class="tone-strong">
-                across enterprise SaaS, security, and corporate growth.
-              </span>
-            </h2>
-          </div>
-
-          <!-- 01: Career Milestones Stack -->
-          <div class="milestone-block" data-testid="career-stack-section">
-            <div class="milestone-subheader">
-              <h3 class="milestone-title">01 · Career Milestones</h3>
-            </div>
-            <div id="career-stack-container"></div>
-          </div>
-
-          <!-- Break Line -->
-          <div
-            role="separator"
-            aria-label="Break between career and academic milestones"
-            data-testid="career-academic-break"
-            class="academic-separator"
-          >
-            <span class="separator-line"></span>
-            <span class="separator-label">Academic</span>
-            <span class="separator-line"></span>
-          </div>
-
-          <!-- 02: Academic Milestones Stack -->
-          <div data-testid="academic-stack-section">
-            <div class="milestone-subheader">
-              <h3 class="milestone-title">02 · Academic Milestones</h3>
-            </div>
-            <div id="academic-stack-container"></div>
-          </div>
-        </div>
-      </section>
-
-      <!-- Band 5: Capability Stack & Interactive 4-Step Pipeline -->
-      <section id="stack" class="section-muted scroll-anchor">
-        <div class="container">
-          <div class="asymmetric-header">
-            <div class="header-col-left">
-              <div class="section-kicker">
-                <span class="kicker-badge kicker-badge-dark" aria-hidden="true">
-                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round">
-                    <line x1="12" y1="5" x2="12" y2="19"></line>
-                    <line x1="5" y1="12" x2="19" y2="12"></line>
-                  </svg>
-                </span>
-                <span>Capability Stack</span>
+                <span>Systems</span>
               </div>
               <p class="kicker-sublabel">Select any numbered discipline to inspect tools</p>
             </div>
@@ -335,52 +445,11 @@
           </div>
 
           <div id="stack-accordion-list" class="stack-accordion-list"></div>
-
-          <!-- Part B: Interactive 4-Step Pipeline Walkthrough -->
-          <div id="pipeline" class="pipeline-wrap scroll-anchor-lg">
-            <div class="asymmetric-header asymmetric-header-end">
-              <div class="header-col-left">
-                <div class="section-kicker">
-                  <span class="kicker-badge kicker-badge-blue" aria-hidden="true">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round">
-                      <line x1="12" y1="5" x2="12" y2="19"></line>
-                      <line x1="5" y1="12" x2="19" y2="12"></line>
-                    </svg>
-                  </span>
-                  <span>Interactive GTM Architecture</span>
-                </div>
-                <p class="kicker-sublabel">
-                  Select any stage to inspect mechanics and governance rules
-                </p>
-              </div>
-
-              <div class="header-col-right">
-                <h3 class="pipeline-heading">
-                  End-to-End Commercial &amp; AI Pipeline Walkthrough
-                </h3>
-              </div>
-            </div>
-
-            <div
-              id="pipeline-tablist"
-              role="tablist"
-              aria-label="GTM pipeline stages"
-              class="pipeline-tablist"
-            ></div>
-
-            <div
-              id="pipeline-detail-panel"
-              role="tabpanel"
-              data-testid="pipeline-detail-panel"
-              aria-live="polite"
-              class="pipeline-panel"
-            ></div>
-          </div>
         </div>
       </section>
     </main>
 
-    <!-- Band 6: Monolithic Obsidian Closing Contact Footer -->
+    <!-- Band 5: Monolithic Obsidian Closing Contact Footer -->
     <footer id="contact" class="site-footer scroll-anchor">
       <div class="container">
         <div class="footer-grid">
@@ -392,7 +461,7 @@
                   <line x1="5" y1="12" x2="19" y2="12"></line>
                 </svg>
               </span>
-              <span>Commercial Readiness &amp; Direct Contact</span>
+              <span>CONTACT</span>
             </div>
 
             <h2 class="footer-headline">
@@ -404,13 +473,8 @@
 
             <p class="footer-intro">
               Based in Cape Town, South Africa, partnering with data-driven B2B SaaS, media
-              intelligence, and enterprise commercial teams globally. Copy a tailored executive
-              summary below or reach out directly.
+              intelligence, and enterprise commercial teams globally.
             </p>
-
-            <div id="pitch-buttons-container" class="pitch-btn-group"></div>
-
-            <div id="clipboard-status" aria-live="polite" class="clipboard-status"></div>
           </div>
 
           <div class="footer-links-col">
@@ -435,14 +499,14 @@
             </a>
 
             <a
-              href="https://www.linkedin.com/in/alvinngwerume"
+              href="https://www.linkedin.com/in/alvin-n-b1420a40/"
               target="_blank"
               rel="noopener noreferrer"
               class="contact-row"
             >
               <div class="contact-row-text">
                 <p class="contact-label">LinkedIn</p>
-                <p class="contact-value">linkedin.com/in/alvinngwerume</p>
+                <p class="contact-value">https://www.linkedin.com/in/alvin-n-b1420a40/</p>
               </div>
               <svg
                 class="contact-icon"
@@ -481,6 +545,25 @@
               >
                 <line x1="7" y1="17" x2="17" y2="7"></line>
                 <polyline points="7 7 17 7 17 17"></polyline>
+              </svg>
+            </a>
+
+            <a href="tel:+27792534030" class="contact-row">
+              <div class="contact-row-text">
+                <p class="contact-label">Phone</p>
+                <p class="contact-value">+27 79 253 4030</p>
+              </div>
+              <svg
+                class="contact-icon"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                aria-hidden="true"
+              >
+                <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path>
               </svg>
             </a>
           </div>
