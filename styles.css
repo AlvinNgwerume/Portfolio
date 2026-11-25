@@ -241,12 +241,6 @@ button {
   transform: translateY(-1px);
 }
 
-.nav-resume-btn.is-downloaded {
-  border-color: var(--accent-cyan);
-  background-color: var(--accent-cyan);
-  color: #08090C;
-}
-
 .nav-resume-btn:focus-visible {
   outline: 2px solid var(--accent-cyan);
   outline-offset: 2px;
